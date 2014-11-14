@@ -1,0 +1,6 @@
+name: Sport Calendar
+description: Demo module to test generating and fetching data
+type: module
+core: 8.x
+dependencies:
+  - devel_generate
