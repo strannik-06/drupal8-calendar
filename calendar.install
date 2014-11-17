@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function calendar_schema()
+{
+    $schema['calendar_exercise'] = array(
+        'description' => 'Custom table for sport exercises.',
+        'fields' => array(
+            'id' => array(
+                'type' => 'serial',
+                'not null' => true,
+            ),
+            'short_description' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => true,
+                'default' => '',
+            ),
+            'weight' => array(
+                'type' => 'int',
+                'not null' => true,
+            ),
+            'date' => array(
+                'type' => 'varchar',
+                'length' => 10,
+                'mysql_type' => 'date',
+                'not null' => true,
+            ),
+            'time' => array(
+                'type' => 'varchar',
+                'length' => 10,
+                'mysql_type' => 'time',
+                'not null' => true,
+            ),
+            'uid' => array(
+                'type' => 'int',
+                'not null' => true,
+                'default' => 0,
+            ),
+        ),
+        'primary key' => array('id'),
+    );
+
+    return $schema;
+}
