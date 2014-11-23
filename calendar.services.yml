@@ -1,4 +1,4 @@
 services:
-    calendar.exercise:
-        class: Drupal\calendar\Service\Exercise
-        arguments: ['@database']
+  calendar.exercise:
+    class: Drupal\calendar\Service\Exercise
+    arguments: ['@database']

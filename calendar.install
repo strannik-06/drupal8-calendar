@@ -3,45 +3,74 @@
 /**
  * Implements hook_schema().
  */
-function calendar_schema()
-{
-    $schema['calendar_exercise'] = array(
-        'description' => 'Custom table for sport exercises.',
-        'fields' => array(
-            'id' => array(
-                'type' => 'serial',
-                'not null' => true,
-            ),
-            'short_description' => array(
-                'type' => 'varchar',
-                'length' => 255,
-                'not null' => true,
-                'default' => '',
-            ),
-            'weight' => array(
-                'type' => 'int',
-                'not null' => true,
-            ),
-            'date' => array(
-                'type' => 'varchar',
-                'length' => 10,
-                'mysql_type' => 'date',
-                'not null' => true,
-            ),
-            'time' => array(
-                'type' => 'varchar',
-                'length' => 10,
-                'mysql_type' => 'time',
-                'not null' => true,
-            ),
-            'uid' => array(
-                'type' => 'int',
-                'not null' => true,
-                'default' => 0,
-            ),
-        ),
-        'primary key' => array('id'),
-    );
+function calendar_schema() {
+  $schema['calendar_exercise'] = array(
+    'description' => 'Custom table for sport exercises.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+      ),
+      'short_description' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'amount' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'date' => array(
+        'type' => 'varchar',
+        'length' => 10,
+        'mysql_type' => 'date',
+        'not null' => TRUE,
+      ),
+      'time' => array(
+        'type' => 'varchar',
+        'length' => 10,
+        'mysql_type' => 'time',
+        'not null' => TRUE,
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+  );
 
-    return $schema;
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function calendar_install() {
+  $num = rand(300, 400);
+  $short_description_variants = array(
+    'Press of a bar',
+    'Bumbbell bench press',
+    'Barbell press seated incline'
+  );
+
+  for ($i = 0; $i < $num; $i++) {
+    $entry = array(
+      'short_description' => $short_description_variants[mt_rand(0, 2)],
+      'weight' => mt_rand(20, 200),
+      'amount' => mt_rand(5, 15),
+      'date' => date("Y-m-d", strtotime('-'.mt_rand(0, 30).' days')),
+      'time' => date('H:i:s'),
+      'uid' => mt_rand(5, 6),
+    );
+    db_insert('calendar_exercise')
+      ->fields($entry)
+      ->execute();
+  }
 }

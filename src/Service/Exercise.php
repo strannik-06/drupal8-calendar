@@ -6,45 +6,54 @@ use Drupal\Core\Database\Connection;
 /**
  * Service for exercise entity.
  */
-class Exercise
-{
-    /**
-     * @var Connection
-     */
-    protected $database;
+class Exercise {
+  /**
+   * @var Connection
+   */
+  protected $database;
 
-    /**
-     * @param Connection $database
-     */
-    public function __construct(Connection $database)
-    {
-        $this->database = $database;
+  /**
+   * @param Connection $database
+   */
+  public function __construct(Connection $database) {
+    $this->database = $database;
+  }
+
+  /**
+   * @param integer $userId
+   * @param string  $currentDate
+   *
+   * @return array
+   */
+  public function getLastResults($userId, $currentDate = null)
+  {
+    if (!isset($currentDate)) {
+      $currentDate = date('Y-m-d');
     }
 
-    /**
-     * Save an entry in the database.
-     *
-     * @param array $entry
-    *
-     * @return int
-     * @throws \Exception
-     */
-    public static function insert($entry)
-    {
-        $returnValue = NULL;
-        try {
-            // todo: rewrite using connection service
-            $returnValue = db_insert('recycle_batterypack')
-                ->fields($entry)
-                ->execute();
-        }
-        catch (\Exception $e) {
-            drupal_set_message(t('db_insert failed. Message = %message, query= %query', array(
-                '%message' => $e->getMessage(),
-                '%query' => $e->query_string,
-            )), 'error');
-        }
+    return array(
+      'today' => $this->findByUserAndDate($userId, $currentDate),
+      'one-week-ago' => $this->findByUserAndDate($userId,
+        date('Y-m-d', strtotime("$currentDate - 1 week"))),
+      'two-week-ago' => $this->findByUserAndDate($userId,
+        date('Y-m-d', strtotime("$currentDate - 2 week"))),
+    );
+  }
 
-        return $returnValue;
-    }
+  /**
+   * @param integer $userId
+   * @param string  $date
+   *
+   * @return mixed
+   */
+  protected function findByUserAndDate($userId, $date) {
+    $query = $this->database->select('calendar_exercise', 'c');
+    $query->condition('c.uid', $userId);
+    $query->condition('c.date', $date);
+
+    return $query
+      ->fields('c')
+      ->execute()
+      ->fetchAllAssoc('id');
+  }
 }

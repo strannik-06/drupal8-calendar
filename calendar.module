@@ -1,0 +1,12 @@
+<?php
+/**
+ * Implements hook_theme().
+ */
+function calendar_theme() {
+  $theme['calendar_index'] = array(
+    'variables' => array('results' => NULL, 'username' => NULL),
+    'template' => 'calendar_index',
+  );
+
+  return $theme;
+}

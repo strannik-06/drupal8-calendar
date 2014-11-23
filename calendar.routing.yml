@@ -1,0 +1,7 @@
+calendar.index:
+  path: /calendar
+  defaults:
+    _content: 'Drupal\calendar\Controller\ExerciseController::indexAction'
+    _title: 'Calendar'
+  requirements:
+    _access: 'TRUE'

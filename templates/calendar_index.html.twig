@@ -1,0 +1,27 @@
+<section>
+  <h1>Hi, {{ username }}</h1>
+  <h2>Check what you did in last 3 trainings</h2>
+  <table class="results-table">
+    <tr>
+      <th>two week ago ({{ "2 week ago"|date("m/d/Y") }})</th>
+      <th>one week ago ({{ "1 week ago"|date("m/d/Y") }})</th>
+      <th>today ({{ "now"|date("m/d/Y") }})</th>
+    </tr>
+    <tr>
+      {% for key in ['two-week-ago', 'one-week-ago', 'today'] %}
+        <td>
+          <table>
+            {% for result in results[key] %}
+              <tr>
+                <td>{{ result.short_description }}</td>
+                <td class="right">
+                  {{ result.weight }}kg X {{ result.amount }}
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+        </td>
+      {% endfor %}
+    </tr>
+  </table>
+</section>
