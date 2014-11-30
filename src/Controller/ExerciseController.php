@@ -37,6 +37,10 @@ class ExerciseController extends ControllerBase {
       '#theme' => 'calendar_index',
       '#results' => $this->service->getLastResults($account->id()),
       '#username' => $account->getUsername(),
+      '#attached' => array(
+        'css' => array(drupal_get_path('module', 'calendar') .
+          '/css/calendar.css')
+      ),
     );
   }
 }

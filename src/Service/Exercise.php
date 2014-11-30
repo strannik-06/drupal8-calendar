@@ -25,8 +25,7 @@ class Exercise {
    *
    * @return array
    */
-  public function getLastResults($userId, $currentDate = null)
-  {
+  public function getLastResults($userId, $currentDate = null) {
     if (!isset($currentDate)) {
       $currentDate = date('Y-m-d');
     }
